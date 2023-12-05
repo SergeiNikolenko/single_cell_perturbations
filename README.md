@@ -7,9 +7,10 @@
 This is 3rd place solution in challenge Open Problems – Single-Cell Perturbations. 
 Link to a detailed solution https://www.kaggle.com/competitions/open-problems-single-cell-perturbations/discussion/458750.
 Link to a required data https://www.kaggle.com/competitions/open-problems-single-cell-perturbations/data.
-de_train.parquet - training data
-id_map.csv - test data - prediction is made for it.
-sample_submission.csv - sample of submission in kaggle challange
+### Needed data
+* de_train.parquet - training data
+* id_map.csv - test data - prediction is made for it.
+* sample_submission.csv - sample of submission in kaggle challange
 	
 ## Technologies
 Project is created with:
