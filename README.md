@@ -12,7 +12,7 @@ This is 3rd place solution in challenge Open Problems – Single-Cell Perturbati
 ### Needed data
 * de_train.parquet - a training data
 * id_map.csv - a test data 
-* sample_submission.csv - a sample of the submission in kaggle challange
+* sample_submission.csv - a sample of the submission in kaggle challenge
 	
 ## Technologies
 Project is created with:
