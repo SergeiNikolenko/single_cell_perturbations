@@ -179,7 +179,7 @@ def model_6(lr: float,
         Dense(dense_1),
         Activation("relu"),
         
-        Dropout(dropout_1),
+        Dropout(dropout_2),
         Dense(dense_2),
         BatchNormalization(),
         Activation("relu"),
