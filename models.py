@@ -6,9 +6,19 @@ from tensorflow.keras.optimizers.legacy import Adam
 from util import custom_mean_rowwise_rmse
 
 
-def model_1(lr, 
-            emb_out,
-            n_dim):
+"""
+Args:
+    lr - a learning rate
+    emb_out - an output size of the embedding layer
+    n_dim - a number of dimentions in a reducted space
+    dense_{i} - a number of neurons in a dense layer
+    dropout_{i} - a dropout value
+"""
+
+
+def model_1(lr: float, 
+            emb_out: int,
+            n_dim: int) -> Sequential:
     tf.random.set_seed(42)
     model = Sequential([
         Embedding(152, emb_out, input_length=2),
@@ -30,11 +40,11 @@ def model_1(lr,
 
 
 
-def model_2(lr, 
-            emb_out, 
-            dense_1, dense_2, 
-            dropout_1, dropout_2,
-            n_dim):
+def model_2(lr: float, 
+            emb_out: int, 
+            dense_1: int, dense_2: int, 
+            dropout_1: float, dropout_2: float,
+            n_dim: int) -> Sequential:
     tf.random.set_seed(42)
     model = Sequential([
         Embedding(152, emb_out, input_length=2),
@@ -58,11 +68,11 @@ def model_2(lr,
     return model
 
 
-def model_3(lr, 
-            emb_out, 
-            dense_1, dense_2, dense_3, dense_4,
-            dropout_1, dropout_2, dropout_3, dropout_4,
-            n_dim):
+def model_3(lr: float, 
+            emb_out: int, 
+            dense_1: int, dense_2: int , dense_3: int, dense_4: int,
+            dropout_1: float, dropout_2: float, dropout_3: float, dropout_4: float,
+            n_dim: int) -> Sequential:
     model = Sequential([
         Embedding(152, emb_out, input_length=2),
         Flatten(),
@@ -96,11 +106,11 @@ def model_3(lr,
     return model
 
 
-def model_4(lr, 
-            emb_out, 
-            dense_1, dense_2, dense_3,
-            dropout_1, dropout_2, dropout_3,
-            n_dim):
+def model_4(lr: float, 
+            emb_out: int, 
+            dense_1: int, dense_2: int, dense_3: int,
+            dropout_1: float, dropout_2: float, dropout_3: float,
+            n_dim: int) -> Sequential:
     model = Sequential([
     Embedding(152, emb_out, input_length=2),
     Flatten(),
@@ -129,11 +139,11 @@ def model_4(lr,
     return model
 
 
-def model_5(lr, 
-            emb_out,
-            n_dim,
-            dropout_1,
-            dropout_2):
+def model_5(lr: float, 
+            emb_out: int,
+            n_dim: int,
+            dropout_1: float,
+            dropout_2: float) -> Sequential:
     tf.random.set_seed(42)
     model = Sequential([
         Embedding(152, emb_out, input_length=2),
@@ -155,12 +165,12 @@ def model_5(lr,
     return model
 
 
-def model_6(lr, 
-            emb_out, 
-            dense_1, dense_2,
-            n_dim,
-            dropout_1,
-            dropout_2):
+def model_6(lr: float, 
+            emb_out: int, 
+            dense_1: int, dense_2: int,
+            n_dim: int,
+            dropout_1: float,
+            dropout_2: float) -> Sequential:
     tf.random.set_seed(42)
     model = Sequential([
         Embedding(152, emb_out, input_length=2),
@@ -169,7 +179,7 @@ def model_6(lr,
         Dense(dense_1), # 64 - 512
         Activation("relu"),
         
-        Dropout(dropout_2),
+        Dropout(dropout_1),
         Dense(dense_2),
         BatchNormalization(),
         Activation("relu"),
@@ -183,31 +193,31 @@ def model_6(lr,
     return model
 
 
-def model_7(lr, 
-            emb_out, 
-            dense_1, dense_2, dense_3, dense_4,
-            dropout_1, dropout_2, dropout_3, dropout_4,
-            n_dim):
+def model_7(lr: float, 
+            emb_out: int, 
+            dense_1: int, dense_2: int, dense_3: int, dense_4: int,
+            dropout_1: float, dropout_2: float, dropout_3: float, dropout_4: float,
+            n_dim: int) -> Sequential:
     model = Sequential([
         Embedding(152, emb_out, input_length=2),
         Flatten(),
         
-        Dense(dense_1), # 128 - 1024
+        Dense(dense_1),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_1),
         
-        Dense(dense_2), # 64 - 512
+        Dense(dense_2),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_2),
         
-        Dense(dense_3), # 32 - 256
+        Dense(dense_3),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_3),
 
-        Dense(dense_4), # 16 - 512
+        Dense(dense_4),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_4),
@@ -221,11 +231,11 @@ def model_7(lr,
     return model
 
 
-def model_8(lr, 
-            emb_out, 
-            dense_1, dense_2, dense_3,
-            dropout_1, dropout_2, dropout_3,
-            n_dim):
+def model_8(lr: float, 
+            emb_out: int, 
+            dense_1: int, dense_2: int, dense_3: int,
+            dropout_1: float, dropout_2: float, dropout_3: float,
+            n_dim: int) -> Sequential:
     model = Sequential([
     Embedding(152, emb_out, input_length=2),
     Flatten(),

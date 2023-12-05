@@ -7,9 +7,12 @@ from params_stage_2 import WEIGHTS_STAGE_2, PARAMS_STAGE_2
 from util import clip, load_pseudolabels, load_test_data, load_train_data, predict, preprocess_data, save_preds
 
 
-REPS = 1
+REPS = 10
 
-def predict_stage_2():
+def predict_stage_2() -> None:
+    """
+    Saves final submission. 
+    """
     train_df = load_train_data()
     pseudolabel = load_pseudolabels()
     train_df = pd.concat([train_df, pseudolabel]).reset_index(drop=True)

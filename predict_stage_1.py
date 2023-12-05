@@ -4,9 +4,12 @@ from params_stage_1 import WEIGHTS_STAGE_1, PARAMS_STAGE_1
 from util import clip, load_test_data, load_train_data, predict, preprocess_data, save_preds
 
 
-REPS = 1
+REPS = 10
 
 def predict_stage_1():
+    """
+    Save pseudolabels
+    """
     train_df = load_train_data()
     test_df = load_test_data()
     x, y, x_test = preprocess_data(train_df, test_df)
