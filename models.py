@@ -50,11 +50,11 @@ def model_2(lr: float,
         Embedding(152, emb_out, input_length=2),
         Flatten(),
         
-        Dense(dense_1), # 64 - 512
+        Dense(dense_1),
         BatchNormalization(),
         Activation("relu"),
         
-        Dropout(dropout_1), # 256 - 2048
+        Dropout(dropout_1),
         Dense(dense_2, activation="relu"),
         Activation("relu"),
         BatchNormalization(),
@@ -77,22 +77,22 @@ def model_3(lr: float,
         Embedding(152, emb_out, input_length=2),
         Flatten(),
         
-        Dense(dense_1), # 128 - 1024
+        Dense(dense_1),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_1),
         
-        Dense(dense_2), # 64 - 512
+        Dense(dense_2),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_2),
         
-        Dense(dense_3), # 32 - 256
+        Dense(dense_3),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_3),
 
-        Dense(dense_4), # 16 - 512
+        Dense(dense_4),
         BatchNormalization(),
         Activation("relu"),
         Dropout(dropout_4),
@@ -176,7 +176,7 @@ def model_6(lr: float,
         Embedding(152, emb_out, input_length=2),
         Flatten(),
         BatchNormalization(),
-        Dense(dense_1), # 64 - 512
+        Dense(dense_1),
         Activation("relu"),
         
         Dropout(dropout_1),

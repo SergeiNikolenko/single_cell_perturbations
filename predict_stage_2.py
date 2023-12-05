@@ -11,7 +11,7 @@ REPS = 10
 
 def predict_stage_2() -> None:
     """
-    Saves final submission. 
+    Saves a final submission. 
     """
     train_df = load_train_data()
     pseudolabel = load_pseudolabels()

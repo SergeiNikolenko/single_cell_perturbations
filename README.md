@@ -10,9 +10,9 @@ This is 3rd place solution in challenge Open Problems – Single-Cell Perturbati
  * A detailed solution https://www.kaggle.com/competitions/open-problems-single-cell-perturbations/discussion/458750.
  * A required data https://www.kaggle.com/competitions/open-problems-single-cell-perturbations/data.
 ### Needed data
-* de_train.parquet - training data
-* id_map.csv - test data - prediction is made for it.
-* sample_submission.csv - sample of submission in kaggle challange
+* de_train.parquet - a training data
+* id_map.csv - a test data 
+* sample_submission.csv - a sample of the submission in kaggle challange
 	
 ## Technologies
 Project is created with:
@@ -26,5 +26,5 @@ Project is created with:
 To run this project:
 * Download from challenge website and copy de_train.parquet, id_map.csv, sample_submission.csv files to data dictionary
 * Build docker image using ```sudo docker build -t env .```
-* Run docker image ```sudo docker run env```
-* Copy predicted file to host ```sudo docker cp env:/app/data/submmision.csv ./submission.csv```.
+* Run docker image ```sudo docker run --name container env```
+* Copy predicted file to host ```sudo docker cp container:/app/data/submission.csv ./submission.csv```.
