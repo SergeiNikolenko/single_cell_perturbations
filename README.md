@@ -24,7 +24,7 @@ Project is created with:
 
 ## Setup
 To run this project:
-* Download from challenge website and copy de_train.parquet, id_map.csv, sample_submission.csv files to data dictionary
+* Download from challenge website and copy de_train.parquet, id_map.csv, sample_submission.csv files to data directory.
 * Build docker image using ```sudo docker build -t env .```
 * Run docker image ```sudo docker run --name container env```
-* Copy predicted file to host ```sudo docker cp container:/app/data/submission.csv ./submission.csv```.
+* Copy predicted file to host ```sudo docker cp container:/app/submissions/stage_2_submission.csv ./submission.csv```.
