@@ -63,7 +63,14 @@ def load_train_data() -> pd.DataFrame:
     return df
 
 
-def load_training_data(stage: str):
+def load_training_data(stage: str) -> Union[np.array, np.array]:
+    """
+    Args:
+        stage: one of simple, stage_1, stage_2
+    Returns:
+        x: training input
+        y: training labels
+    """
     root = Path(__file__).parent
     path = Path(load_json_file(root / 'SETTINGS.json')['TRAIN_DATA_CLEAN_PATH']) / stage
     x_path = path / 'x.npy'
@@ -73,7 +80,13 @@ def load_training_data(stage: str):
     return x, y
 
 
-def load_test_x(stage: str):
+def load_test_x(stage: str) -> np.array:
+    """
+    Args:
+        stage: one of simple, stage_1, stage_2
+    Returns:
+        x: test input
+    """
     root = Path(__file__).parent
     path = root / load_json_file(root / 'SETTINGS.json')['TEST_DATA_CLEAN_PATH'] / stage
     x_path = path / 'test_x.npy'
@@ -88,7 +101,7 @@ def load_pseudolabels() -> pd.DataFrame:
     """
     root = Path(__file__).parent
     path = load_json_file(root / 'SETTINGS.json')['SUBMISSION_DIR']
-    path = root / path / 'submission_stage_1.csv'
+    path = root / path / 'stage_1_submission.csv'
     pseudolabel = pd.read_csv(path)
     test_df = load_test_data()
     pseudolabel = pd.concat([test_df[['cell_type', 'sm_name']], pseudolabel.loc[:, 'A1BG':]], axis=1)
@@ -132,6 +145,7 @@ def preprocess_data(train_df: pd.DataFrame, test_df: pd.DataFrame) -> Union[np.a
     test_x = encoder.transform(test_x.flat).reshape(-1, 2)
     return x, y, test_x
 
+
 def clip(array: np.array) -> np.array:
     """
     Clip predictions between min and max values per columns
@@ -145,6 +159,7 @@ def clip(array: np.array) -> np.array:
     maxs = values.max(axis=0)
     clipped_pred = np.clip(array, mins, maxs)
     return clipped_pred
+
 
 def fit_and_predict_embedding_nn(x: np.array, 
                                  y: np.array, 

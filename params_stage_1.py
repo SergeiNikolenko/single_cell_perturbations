@@ -108,8 +108,15 @@ params_model_8 =     {
     }
 
 
+SIMPLE_MODEL_PARAMS = [params_model_7]
+
+
+WEIGHTS_SIMPLE_MODEL = [1]
+
+
 PARAMS_STAGE_1 = [params_model_1, params_model_2, params_model_3, params_model_5,
                   params_model_6, params_model_7, params_model_8]
+
 
 WEIGHTS_STAGE_1 = [0.15224443321212433, 0.7152220796128623, 0.7547606691460997, 0.05786285275052854,
                    0.9602177109190158, 0.4968056740470425, 0.9881673272809887]

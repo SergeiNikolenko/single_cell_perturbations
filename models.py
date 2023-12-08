@@ -264,5 +264,18 @@ def model_8(lr: float,
     return model
 
 
+SIMPLE_MODEL = [model_7]
+SIMPLE_MODEL_IDXS = ['7']
+
 MODELS_STAGE_1 = [model_1, model_2, model_3, model_5, model_6, model_7, model_8]
+MODELS_STAGE_1_IDXS = ['1', '2', '3', '5', '6', '7', '8']
+
 MODELS_STAGE_2 = [model_1] + [model_2] * 3 + [model_3] * 2 + [model_4] * 2 + [model_5] * 3 + [model_6] * 3 + [model_7] * 2 + [model_8] * 4
+MODELS_STAGE_2_IDXS = ['1a',
+                       '2a', '2b', '2c',
+                       '3a', '3b',
+                       '4a', '4b',
+                       '5a', '5b', '5c',
+                       '6a', '6b', '6c',
+                       '7a', '7b',
+                       '8a', '8b', '8c', '8d']
