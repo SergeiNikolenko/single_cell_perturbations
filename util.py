@@ -1,4 +1,5 @@
 import gc
+import json
 from pathlib import Path
 from typing import List, Union
 
@@ -9,24 +10,28 @@ from sklearn.decomposition import TruncatedSVD
 import tensorflow as tf
 
 
-def load_train_data() -> pd.DataFrame:
+def load_json_file(path: Path) -> dict:
+    """
+    Args: path
+    Returns: dct - dictionary
+    """
+    with open(path) as f:
+        dct = json.load(f)
+        return dct
+    
+
+def load_raw_data_file(file) -> pd.DataFrame:
     """
     Args: None
     Returns: a training data frame.
     """
-    path = Path(__file__).parent / 'data/de_train.parquet'
-    df = pd.read_parquet(path)
-    df = df.sample(frac=1.0, random_state=42)
-    return df
-
-
-def load_test_data() -> pd.DataFrame:
-    """
-    Args: None
-    Returns: a test data frame.
-    """
-    path = Path(__file__).parent / 'data/id_map.csv'
-    df = pd.read_csv(path)
+    root = Path(__file__).parent
+    path = load_json_file(root / 'SETTINGS.json')['RAW_DATA_DIR']
+    path = root / path / file
+    if str(path).endswith('csv'):
+        df = pd.read_csv(path)
+    elif str(path).endswith('parquet'):
+        df = pd.read_parquet(path)
     return df
 
 
@@ -35,9 +40,45 @@ def load_sample_submission() -> pd.DataFrame:
     Args: None
     Returns: a sample submission.
     """
-    path = Path(__file__).parent / 'data/sample_submission.csv'
-    df = pd.read_csv(path)
+    df = load_raw_data_file('sample_submission.csv')
     return df
+
+
+def load_test_data() -> pd.DataFrame:
+    """
+    Args: None
+    Returns: a test data frame.
+    """
+    df = load_raw_data_file('id_map.csv')
+    return df
+
+
+def load_train_data() -> pd.DataFrame:
+    """
+    Args: None
+    Returns: a training data frame.
+    """
+    df = load_raw_data_file('de_train.parquet')
+    df = df.sample(frac=1.0, random_state=42)
+    return df
+
+
+def load_training_data(stage: str):
+    root = Path(__file__).parent
+    path = Path(load_json_file(root / 'SETTINGS.json')['TRAIN_DATA_CLEAN_PATH']) / stage
+    x_path = path / 'x.npy'
+    y_path = path / 'y.npy'
+    x = np.load(x_path)
+    y = np.load(y_path)
+    return x, y
+
+
+def load_test_x(stage: str):
+    root = Path(__file__).parent
+    path = root / load_json_file(root / 'SETTINGS.json')['TEST_DATA_CLEAN_PATH'] / stage
+    x_path = path / 'test_x.npy'
+    x = np.load(x_path)
+    return x
 
 
 def load_pseudolabels() -> pd.DataFrame:
@@ -45,25 +86,30 @@ def load_pseudolabels() -> pd.DataFrame:
     Args: None
     Returns: pseudolabels, which can use as final solution too.
     """
-    path = Path(__file__).parent / 'data/submission_stage_1.csv'
+    root = Path(__file__).parent
+    path = load_json_file(root / 'SETTINGS.json')['SUBMISSION_DIR']
+    path = root / path / 'submission_stage_1.csv'
     pseudolabel = pd.read_csv(path)
     test_df = load_test_data()
     pseudolabel = pd.concat([test_df[['cell_type', 'sm_name']], pseudolabel.loc[:, 'A1BG':]], axis=1)
     return pseudolabel
 
 
-def save_preds(preds: pd.DataFrame, name:str) -> None:
+def save_preds(preds: np.array, name:str) -> None:
     """
     Save prediction in data directory
     Args:
-        preds - a predicted data frame
+        preds - a predicted numpy array
     Returns: None
     """
     columns = load_sample_submission().columns
     df = pd.DataFrame(preds, columns = columns[1:])
     df['id'] = range(len(df))
     df = df.loc[:, columns]
-    df.to_csv(Path(__file__).parent / 'data' / name, index=False)
+    root = Path(__file__).parent
+    path = root / load_json_file(root / 'SETTINGS.json')['SUBMISSION_DIR']
+    path.mkdir(parents=True, exist_ok=True)
+    df.to_csv(path / name, index=False)
 
 
 def preprocess_data(train_df: pd.DataFrame, test_df: pd.DataFrame) -> Union[np.array, np.array, np.array]:
@@ -128,6 +174,24 @@ def fit_and_predict_embedding_nn(x: np.array,
     pred = d.inverse_transform(model.predict(test_x, batch_size=1))
     return pred
 
+
+def train_nn(x: np.array, 
+             y: np.array, 
+             model_constructor: callable, 
+             best_params: dict,
+             model_path:Path) -> np.array:
+    model_params, training_params = split_params_to_training_model(best_params)
+    n_dim = model_params['n_dim']
+    d = TruncatedSVD(n_dim)
+    y = d.fit_transform(y)
+    model = model_constructor(**model_params)
+    model.fit(x, y, epochs=training_params['epochs'], 
+                    batch_size=training_params['bs'], 
+                    verbose=1,
+                    shuffle=True)
+    model_path.parent.mkdir(parents=True, exist_ok=True)
+    model.save(model_path)
+    
 
 def predict(x: np.array,
             y: np.array, 
@@ -203,7 +267,8 @@ def split_params_to_training_model(model_params: dict) -> Union[dict, dict]:
     Args:
         model_params: all training paramaters
     Returns:
-        model_params - params for model
+        model_params - params for mode    root = Path(__file__).parent
+    path = load_json_file(root / 'SETTINGS.json')['SUBMISSION_DIR']l
         training_params - params for training
     """
     model_params = model_params['params']
