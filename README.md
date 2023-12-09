@@ -27,7 +27,7 @@ Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz (8 cores)
 ## Model training
 To train simple model 
 ```python -m prepare_data --stage simple && python -m train --stage simple```  
-This model (model_7_0.keras) is serialized and placed in models/simple/, so training can be omitted.   
+This model (model_7_0.keras) is serialized and placed in models/simple/model_7, so training can be omitted.   
 To train stage 1 models
 ```python -m prepare_data --stage stage_1 && python -m train --stage stage_1```  
 To train stage 2 models 
