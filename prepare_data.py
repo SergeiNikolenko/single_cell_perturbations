@@ -1,6 +1,6 @@
 from pathlib import Path
 import pandas as pd
-from util import load_json_file, load_pseudolabels, load_test_data, load_train_data, preprocess_data
+from util import load_json_file, load_pseudolabels, load_test_data, load_train_data, parse_stage, preprocess_data
 
 import numpy as np
 
@@ -28,4 +28,5 @@ def prepare_data(stage: str) -> None:
 
 
 if __name__ == '__main__':
-    prepare_data('simple')
+    stage = parse_stage()
+    prepare_data(stage)

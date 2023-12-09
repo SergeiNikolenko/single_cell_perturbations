@@ -1,9 +1,12 @@
-from util import load_json_file, load_training_data, train_nn
+import argparse
+from util import load_json_file, load_training_data, parse_stage, train_nn
 from pathlib import Path
 from models import MODELS_STAGE_1, MODELS_STAGE_1_IDXS, MODELS_STAGE_2, MODELS_STAGE_2_IDXS, SIMPLE_MODEL, SIMPLE_MODEL_IDXS
-from params_stage_1 import PARAMS_STAGE_1, SIMPLE_MODEL_PARAMS
-from params_stage_2 import PARAMS_STAGE_2
+from config.params_stage_1 import PARAMS_STAGE_1, SIMPLE_MODEL_PARAMS
+from config.params_stage_2 import PARAMS_STAGE_2
 
+
+REPS = 10
 
 def load_config(stage: str):
     """
@@ -19,12 +22,12 @@ def load_config(stage: str):
         models = MODELS_STAGE_1
         params = PARAMS_STAGE_1
         model_idxs = MODELS_STAGE_1_IDXS
-        reps = 10
+        reps = REPS
     elif stage == 'stage_2':
         models = MODELS_STAGE_2
         params = PARAMS_STAGE_2
         model_idxs = MODELS_STAGE_2_IDXS
-        reps = 10
+        reps = REPS
     elif stage =='simple':
         models = SIMPLE_MODEL
         params = SIMPLE_MODEL_PARAMS
@@ -46,8 +49,10 @@ def train(stage: str) -> None:
     for model_id, model_costructor, model_params in zip(model_idxs, models, params):
         for rep in range(reps):
             model_path = models_dir / stage / f"model_{model_id}" /  f"model_{model_id}_{rep}.keras"
+            print("Model path", model_path)
             train_nn(x, y, model_costructor, model_params, model_path)
 
 
-if __name__ == '__main__':   
-    train('simple')
+if __name__ == '__main__':
+    stage = parse_stage()
+    train(stage)

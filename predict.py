@@ -5,10 +5,10 @@ from typing import List
 import numpy as np
 from sklearn.decomposition import TruncatedSVD
 from tensorflow import keras
-from params_stage_1 import WEIGHTS_SIMPLE_MODEL, WEIGHTS_STAGE_1
-from params_stage_2 import WEIGHTS_STAGE_2
+from config.params_stage_1 import WEIGHTS_SIMPLE_MODEL, WEIGHTS_STAGE_1
+from config.params_stage_2 import WEIGHTS_STAGE_2
 
-from util import clip, custom_mean_rowwise_rmse, load_json_file, load_test_x, load_training_data, save_preds
+from util import clip, custom_mean_rowwise_rmse, load_json_file, load_test_x, load_training_data, parse_stage, save_preds
 
 
 def predict_single_model(x_test: np.array, y: np.array, model_path: Path) -> np.array:
@@ -71,4 +71,5 @@ def predict(stage: str) -> None:
     save_preds(preds, submission_name)
 
 if __name__ == '__main__':
-    predict('simple')
+    stage = parse_stage()
+    predict(stage)

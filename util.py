@@ -1,3 +1,4 @@
+import argparse
 import gc
 import json
 from pathlib import Path
@@ -8,6 +9,17 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import TruncatedSVD
 import tensorflow as tf
+
+
+def parse_stage() -> str:
+    """
+    Parse stage arg.
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--stage")
+    args = parser.parse_args()
+    stage = args.stage
+    return stage
 
 
 def load_json_file(path: Path) -> dict:

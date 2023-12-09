@@ -13,22 +13,16 @@ def repro_stage(stage: str) -> None:
     predict(stage)
 
 
-def repro() -> None:
-    """
-    Reproduce a complex system. 
-    """
-    repro_stage('stage_1')
-    repro_stage('stage_2')
-
-
-def repro_simple() -> None:
-    """
-    Reproduce a simplified system.
-    """
-    repro_stage('simple')
+def repro(stage) -> None:
+    if stage == 'stage_2':
+        repro_stage('stage_1')
+        repro_stage('stage_2')
+    elif stage == 'stage_1':
+        repro_stage('stage_1')
+    elif stage == 'simple':
+        repro_stage('simple')
 
 
 if __name__ == '__main__':
-    #repro_simple()
-    repro()
+    repro('stage_2')
     
