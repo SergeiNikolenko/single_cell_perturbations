@@ -3,3 +3,4 @@
 *.npy
 *.keras
 !simple/model_7_0.keras
+data/
